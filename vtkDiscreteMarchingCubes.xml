@@ -1,12 +1,12 @@
 <ServerManagerConfiguration>
   <ProxyGroup name="filters">
-   <SourceProxy name="WindowedSincSmooth" class="vtkWindowedSincPolyDataFilter" label="WindowedSincSmooth">
+   <SourceProxy name="DiscreteMarchingCubes" class="vtkDiscreteMarchingCubes" label="DiscreteMarchingCubes">
      <Documentation
         long_help=""
         short_help="">
      </Documentation>
      <InputProperty
-         name="WindowedSincSmooth"
+         name="DiscreteMarchingCubes"
 	 port_index="0"
          command="SetInputConnection">
         <ProxyGroupDomain name="groups">
@@ -14,55 +14,37 @@
           <Group name="filters"/>
         </ProxyGroupDomain>
         <DataTypeDomain name="input_type">
-          <DataType value="vtkPolyData"/>
+          <DataType value="vtkImageData"/>
         </DataTypeDomain>
         <Documentation>
-          Specify the input vtkPolyData.
+          Specify the input vtkImageData.
         </Documentation>
       </InputProperty>
  
 
       <IntVectorProperty
-	  name="BoundarySmoothing"
-	  command="SetBoundarySmoothing"
+	  name="ComputeAdjacentScalars"
+	  command="SetComputeAdjacentScalars"
+	  number_of_elements="1"
+	  default_values="0">
+	<BooleanDomain name="bool"/>
+      </IntVectorProperty>
+
+      <IntVectorProperty
+	  name="ComputeScalars"
+	  command="SetComputeScalars"
 	  number_of_elements="1"
 	  default_values="1">
 	<BooleanDomain name="bool"/>
       </IntVectorProperty>
 
       <IntVectorProperty
-	  name="NonManifoldSmoothing"
-	  command="SetNonManifoldSmoothing"
-	  number_of_elements="1"
-	  default_values="1">
-	<BooleanDomain name="bool"/>
-      </IntVectorProperty>
-
-      <IntVectorProperty
-	  name="FeatureEdgeSmoothing"
-	  command="SetFeatureEdgeSmoothing"
-	  number_of_elements="0"
-	  default_values="1">
-	<BooleanDomain name="bool"/>
-      </IntVectorProperty>
-
-      <IntVectorProperty
-	  name="GenerateErrorScalars"
-	  command="SetGenerateErrorScalars"
-	  number_of_elements="1"
-	  default_values="1">
-	<BooleanDomain name="bool"/>
-      </IntVectorProperty>
-
-
-     <IntVectorProperty
-	  name="NumberOfIterations"
-	  command="SetNumberOfIterations"
-	  number_of_elements="1"
+	  name="GenerateValues"
+	  command="GenerateValues"
+	  number_of_elements="3"
 	  animateable="1"
-	  default_values="20">
-	<!-- <IntRangeDomain name="range" min="0" max="GetNumberOfPoints()" /> -->
-        </IntVectorProperty>
+	  default_values="1 1 1">
+      </IntVectorProperty>
 
    </SourceProxy>
  </ProxyGroup>
