@@ -38,13 +38,27 @@
 	<BooleanDomain name="bool"/>
       </IntVectorProperty>
 
-      <IntVectorProperty
-	  name="GenerateValues"
-	  command="GenerateValues"
-	  number_of_elements="3"
-	  animateable="1"
-	  default_values="1 1 1">
-      </IntVectorProperty>
+      <DoubleVectorProperty animateable="1"
+                            command="SetValue"
+                            label="Isosurfaces"
+                            name="ContourValues"
+                            number_of_elements="0"
+                            number_of_elements_per_command="1"
+                            repeat_command="1"
+                            set_number_command="SetNumberOfContours"
+                            use_index="1">
+        <ArrayRangeDomain name="scalar_range">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+            <Property function="ArraySelection"
+                      name="SelectInputScalars" />
+          </RequiredProperties>
+        </ArrayRangeDomain>
+        <Documentation>This property specifies the values at which to compute
+        isosurfaces/isolines and also the number of such
+        values.</Documentation>
+      </DoubleVectorProperty>
 
    </SourceProxy>
  </ProxyGroup>
