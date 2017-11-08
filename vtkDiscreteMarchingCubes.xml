@@ -1,43 +1,102 @@
 <ServerManagerConfiguration>
   <ProxyGroup name="filters">
-   <SourceProxy name="DiscreteMarchingCubes" class="vtkDiscreteMarchingCubes" label="DiscreteMarchingCubes">
-     <Documentation
-        long_help=""
-        short_help="">
-     </Documentation>
-     <InputProperty
-         name="DiscreteMarchingCubes"
-	 port_index="0"
-         command="SetInputConnection">
+    <SourceProxy name="DiscreteMarchingCubes" class="vtkDiscreteMarchingCubes" label="DiscreteMarchingCubes">
+      <Documentation short_help="Generates isosurfaces from 3D label image data (volume).">
+      Generates an isosurface from 3D label image data (volume) using vtkDiscreteMarchingCubes.</Documentation>
+      <InputProperty command="SetInputConnection"
+                     name="Input">
         <ProxyGroupDomain name="groups">
-          <Group name="sources"/>
-          <Group name="filters"/>
+          <Group name="sources" />
+          <Group name="filters" />
         </ProxyGroupDomain>
         <DataTypeDomain name="input_type">
-          <DataType value="vtkImageData"/>
+          <DataType value="vtkImageData" />
         </DataTypeDomain>
-        <Documentation>
-          Specify the input vtkImageData.
-        </Documentation>
+        <InputArrayDomain attribute_type="point"
+                          name="input_array"
+                          number_of_components="1" />
+        <Documentation>This property specifies the input dataset to be used by
+        the contour filter.</Documentation>
       </InputProperty>
- 
-
+      <StringVectorProperty animateable="0"
+                            command="SetInputArrayToProcess"
+                            element_types="0 0 0 0 2"
+                            label="Contour By"
+                            name="SelectInputScalars"
+                            number_of_elements="5">
+        <ArrayListDomain attribute_type="Scalars"
+                         name="array_list">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </ArrayListDomain>
+        <FieldDataDomain name="field_list">
+          <RequiredProperties>
+            <Property function="Input"
+                      name="Input" />
+          </RequiredProperties>
+        </FieldDataDomain>
+        <Documentation>This property specifies the name of the scalar array
+        from which the contour filter will compute isolines and/or
+        isosurfaces.</Documentation>
+      </StringVectorProperty>
+      <IntVectorProperty animateable="0"
+                         command="SetComputeNormals"
+                         default_values="1"
+                         name="ComputeNormals"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Hints>
+          <PropertyWidgetDecorator type="NonPolyDataInputDecorator" />
+        </Hints>
+        <Documentation>If this property is set to 1, a scalar array containing
+        a normal value at each point in the isosurface or isoline will be
+        created by the contour filter; otherwise an array of normals will not
+        be computed. This operation is fairly expensive both in terms of
+        computation time and memory required, so if the output dataset produced
+        by the contour filter will be processed by filters that modify the
+        dataset's topology or geometry, it may be wise to set the value of this
+        property to 0. Select whether to compute normals.</Documentation>
+      </IntVectorProperty>
+      <IntVectorProperty animateable="0"
+                         command="SetComputeGradients"
+                         default_values="0"
+                         name="ComputeGradients"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Hints>
+          <PropertyWidgetDecorator type="InputDataTypeDecorator" name="Structured" />
+        </Hints>
+        <Documentation>If this property is set to 1, a scalar array containing
+        a gradient value at each point in the isosurface or isoline will be
+        created by this filter; otherwise an array of gradients will not be
+        computed. This operation is fairly expensive both in terms of
+        computation time and memory required, so if the output dataset produced
+        by the contour filter will be processed by filters that modify the
+        dataset's topology or geometry, it may be wise to set the value of this
+        property to 0. Not that if ComputeNormals is set to 1, then gradients
+        will have to be calculated, but they will only be stored in the output
+        dataset if ComputeGradients is also set to 1.</Documentation>
+      </IntVectorProperty>
+      <IntVectorProperty animateable="0"
+                         command="SetComputeScalars"
+                         default_values="0"
+                         name="ComputeScalars"
+                         number_of_elements="1">
+        <BooleanDomain name="bool" />
+        <Documentation>If this property is set to 1, an array of scalars
+        (containing the contour value) will be added to the output dataset. If
+        set to 0, the output will not contain this array.</Documentation>
+      </IntVectorProperty>
       <IntVectorProperty
 	  name="ComputeAdjacentScalars"
 	  command="SetComputeAdjacentScalars"
+	  animateable="0"
 	  number_of_elements="1"
 	  default_values="0">
 	<BooleanDomain name="bool"/>
       </IntVectorProperty>
-
-      <IntVectorProperty
-	  name="ComputeScalars"
-	  command="SetComputeScalars"
-	  number_of_elements="1"
-	  default_values="1">
-	<BooleanDomain name="bool"/>
-      </IntVectorProperty>
-
       <DoubleVectorProperty animateable="1"
                             command="SetValue"
                             label="Isosurfaces"
@@ -59,9 +118,15 @@
         isosurfaces/isolines and also the number of such
         values.</Documentation>
       </DoubleVectorProperty>
+      <Hints>
+        <Visibility replace_input="2" />
+        <ShowInMenu category="Accelerated Algorithms" />
+      </Hints>
 
-   </SourceProxy>
- </ProxyGroup>
+      <PropertyGroup label="Isosurfaces">
+        <Property name="ContourValues" />
+      </PropertyGroup>
+    </SourceProxy>
+  </ProxyGroup>
 </ServerManagerConfiguration>
-
 
